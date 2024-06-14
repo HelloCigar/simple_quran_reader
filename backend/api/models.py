@@ -25,7 +25,8 @@ class Verse(models.Model):
 class Progress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     surah = models.ForeignKey(Surah, on_delete=models.CASCADE)
-    current_verse = models.IntegerField()
+    current_verse = models.IntegerField(default=0)
+    bookmarked_verses = models.ManyToManyField(Verse, related_name='bookmarked_by_users')
 
     def __str__(self):
         return f'{self.user.username} - {self.surah.name} - Verse {self.current_verse}'

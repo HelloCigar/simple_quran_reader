@@ -47,4 +47,4 @@ class SurahDetailSerializer(serializers.ModelSerializer):
 class ProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Progress
-        fields = ['id', 'user', 'surah', 'current_verse']
+        fields = ['id', 'user', 'surah', 'current_verse', 'bookmarked_verses']
