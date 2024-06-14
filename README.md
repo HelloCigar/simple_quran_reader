@@ -5,7 +5,7 @@ To run locally:
      - ```djangorestframework```
      - ```djangorestframework-simplejwt```
      - ```django-cors-headers```
-     - Run to import quran to database: ```python manage.py import_quran "./api/quran_data/quran_en.json```
+     - Run to import quran to database: ```python manage.py import_quran "./api/quran_data/quran_en.json"```
      - Then start the Django server using ```python manage.py runserver```
   3. Open another terminal, ```cd frontend```, then run:
      - ```npm install```
