@@ -2,3 +2,8 @@
 /backend/api/__pycache__
 backend/backend/__pycache__/wsgi.cpython-312.pyc
 *.sqlite3
+*.pyc
+backend/api/__init__.py
+backend/api/management/__init__.py
+backend/api/management/commands/__init__.py
+backend/api/migrations/__init__.py
