@@ -7,3 +7,4 @@ backend/api/__init__.py
 backend/api/management/__init__.py
 backend/api/management/commands/__init__.py
 backend/api/migrations/__init__.py
+/backend/api/migrations
