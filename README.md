@@ -5,7 +5,7 @@ To run locally:
      - djangorestframework
      - djangorestframework-simplejwt,
      - django-cors-headers
-  Then start the Django server using "python manage.py runserver"
+     - Then start the Django server using "python manage.py runserver"
   3. Open another terminal, cd frontend/, then run:
      - npm install
      - npm run dev
