@@ -10,26 +10,28 @@ function VerseIcons({surahId, id}) {
     return (
         <Grid container>
             <Grid item xs={1}>
-                <Grid container border={1} borderColor="grey.400" p={1} borderRadius={2} width={"50%"}>
+                <Box border={1} borderColor="grey.400" p={1} borderRadius={2}>
+                <Grid container>
                     <Grid item xs={4}>
-                        <Typography align="center" color={grey[400]}>
+                        <Typography align="center" color={grey[500]}>
                         {surahId}
                         </Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography align="center" color={grey[400]}>
+                        <Typography align="center" color={grey[500]}>
                         :
                         </Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography align="center" color={grey[400]}>
+                        <Typography align="center" color={grey[500]}>
                         {id}
                         </Typography>
                     </Grid>
                 </Grid>
+                </Box>
             </Grid>
             <Grid item xs={11}>
-                
+                {/* {to be implemented} */}
             </Grid>
         </Grid>
     )
