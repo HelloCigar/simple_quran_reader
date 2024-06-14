@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Container, Divider } from '@mui/material';
+import { Typography, Container, Divider, Grid } from '@mui/material';
 
 import api from '../api';
 import VerseText from './VerseText';
@@ -31,9 +31,11 @@ function Verses({surahId}){
                     {surahDetail.transliteration}
                 </Typography>
                 <Typography variant="h4" paragraph>
-                    {surahDetail.translation}
+                    {"("+ surahDetail.translation + ")"}
                 </Typography>
-                <Divider variant="fullWidth" /></>
+                <Grid item xs={12} marginBottom={3}>
+                    <Divider variant="fullWidth" />
+                </Grid></>
             ) : (
                 <p>Loading...</p>
             )}
@@ -41,7 +43,7 @@ function Verses({surahId}){
             {surahDetail ? (
                 surahDetail.verses.map((verse) => (
                 <React.Fragment key={verse.id}>
-                    <VerseText text={verse.text} translation={verse.translation}/>
+                    <VerseText surahId={surahId} id={verse.verse_id} text={verse.text} translation={verse.translation}/>
                 </React.Fragment>
                 ))
             ) : (

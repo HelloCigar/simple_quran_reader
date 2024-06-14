@@ -1,7 +1,7 @@
 # quran/urls.py
 
 from django.urls import path
-from .views import SurahListCreateView, SurahDetailView, ProgressListCreateView, ProgressDetailView, RegisterView, LoginView, LogoutView
+from .views import SurahListCreateView, SurahDetailView, ProgressListCreateView, ProgressDetailView
 
 urlpatterns = [
     path('surahs/', SurahListCreateView.as_view(), name='surah-list-create'),
