@@ -1,3 +1,6 @@
+First things first, why?
+  - I'm bored af and got nothing to do. I am not a religious person, but my father is.
+
 To run locally:
   1. Clone the repo
   2. Open terminal, ```cd backend```, and install the required packages using ```pip``` (install ```pip``` if you haven't already):
