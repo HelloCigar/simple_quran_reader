@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, Divider, Grid } from "@mui/material";
 import VerseIcons from "./VerseIcons";
 
 
-function VerseText({surahId, id ,text, translation}) {
+function VerseText({isBookmarked, isCompleted, surahId, id ,text, translation}) {
 
     return (
         <>
@@ -19,7 +19,7 @@ function VerseText({surahId, id ,text, translation}) {
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <VerseIcons surahId={surahId} id={id} />
+                    <VerseIcons isBookmarked={isBookmarked} isCompleted={isCompleted} surahId={surahId} id={id} />
                 </Grid>
                 <Grid item xs={12} marginBottom={3}>
                     <Divider variant="fullWidth" />

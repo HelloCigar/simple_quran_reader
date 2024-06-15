@@ -1,12 +1,15 @@
 # quran/urls.py
 
 from django.urls import path
-from .views import SurahListCreateView, SurahDetailView, ProgressListCreateView, ProgressDetailView, CheckBookmarkView
+from .views import UpdateVerseBookmarkOrCompleted, SurahListCreateView, SurahDetailView
 
 urlpatterns = [
     path('surahs/', SurahListCreateView.as_view(), name='surah-list-create'),
     path('surahs/<int:pk>/', SurahDetailView.as_view(), name='surah-detail'),
-    path('progress/', ProgressListCreateView.as_view(), name='progress-list-create'),
-    path('progress/delete/', ProgressDetailView.as_view(), name='progress-detail'),
-    path('progress/get/', CheckBookmarkView.as_view(), name='progress-detail'),
+    path('verse/bookmark/', UpdateVerseBookmarkOrCompleted.as_view(), name='progress-list-create'),
+    path('verse/bookmark/remove/', UpdateVerseBookmarkOrCompleted.as_view(), name='progress-list-create'),
+    path('verse/completed/', UpdateVerseBookmarkOrCompleted.as_view(), name='progress-list-create'),
+    path('verse/completed/remove/', UpdateVerseBookmarkOrCompleted.as_view(), name='progress-list-create'),
+    #path('verse/add_note/', ProgressListCreateView.as_view(), name='progress-list-create'),
+    #path('verse/remove_note/', ProgressListCreateView.as_view(), name='progress-list-create'),
 ]

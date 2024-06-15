@@ -39,11 +39,11 @@ function Verses({surahId}){
             ) : (
                 <p>Loading...</p>
             )}
-
+                
             {surahDetail ? (
                 surahDetail.verses.map((verse) => (
                 <React.Fragment key={verse.id}>
-                    <VerseText surahId={surahId} id={verse.verse_id} text={verse.text} translation={verse.translation}/>
+                    <VerseText isCompleted={verse.completed} isBookmarked={verse.bookmarked} surahId={surahId} id={verse.verse_id} text={verse.text} translation={verse.translation}/>
                 </React.Fragment>
                 ))
             ) : (

@@ -18,15 +18,14 @@ class Verse(models.Model):
     verse_id = models.IntegerField()
     text = models.TextField()
     translation = models.TextField()
+    bookmarked = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.surah.name} - {self.verse_id}'
+        return f'{self.translation} - {self.verse_id} - {self.bookmarked} - {self.completed}'
 
-class Progress(models.Model):
+class VerseNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     surah = models.ForeignKey(Surah, on_delete=models.CASCADE)
-    current_verse = models.IntegerField(default=0)
-    bookmarked_verses = models.ManyToManyField(Verse, related_name='bookmarked_by_users')
-
-    def __str__(self):
-        return f'{self.user.username} - {self.surah.name} - Verse {self.current_verse}'
+    verse = models.OneToOneField(Verse, on_delete=models.CASCADE)
+    content = models.TextField()

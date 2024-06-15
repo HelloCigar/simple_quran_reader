@@ -2,7 +2,7 @@
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Surah, Verse, Progress
+from .models import Surah, Verse, VerseNote
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,7 +30,7 @@ class LoginSerializer(serializers.Serializer):
 class VerseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Verse
-        fields = ['id', 'verse_id', 'text', 'translation']
+        fields = ['id', 'verse_id', 'text', 'translation', 'bookmarked', "completed"]
 
 class SurahSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,7 +44,12 @@ class SurahDetailSerializer(serializers.ModelSerializer):
         model = Surah
         fields = ['id', 'name', 'transliteration', 'translation', 'type', 'total_verses', 'verses']
 
-class ProgressSerializer(serializers.ModelSerializer):
+class BookmarkAndCompletedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Progress
-        fields = ['id', 'user', 'surah', 'current_verse', 'bookmarked_verses']
+        model = Verse
+        fields = ['id', 'bookmarked', "completed"]
+
+class VerseNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: VerseNote
+        fields = ['id', 'user', 'surah', 'verse' 'content']

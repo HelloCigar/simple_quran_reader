@@ -2,57 +2,59 @@ import React, { useState, useEffect } from "react";
 import { IconButton, Grid, Box, Typography } from "@mui/material";
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import DoneAllIcon from '@mui/icons-material/DoneAll'; 
 import { Stack } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import api from "../api";
 
-function VerseIcons({ surahId, id }) {
+function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
     const [bookmarked, setBookmark] = useState(false);
+    const [completed, setCompleted] = useState(false);
+
 
     useEffect(() => {
-        // Check if the verse is already bookmarked
-        const checkBookmark = async () => {
-            try {
-                const response = await api.get(`/api/progress/get/`, {
-                    params: {
-                        surah_id: surahId,
-                        verse_id: id,
-                    },
-                });
-
-                if (response.status === 200 && response.data.bookmarked) {
-                    setBookmark(true);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        checkBookmark();
-    }, [surahId, id]);
-
+        if (isBookmarked === true) {
+            setBookmark(true)
+        }
+        if (isCompleted === true) {
+            setCompleted(true)
+        }
+    }, [])
     
-    const handleToggleBookmark = async () => {
+    const handleToggle = async (option) => {
         try {
             let response;
-            if (bookmarked) {
-                // Remove bookmark
-                response = await api.delete("/api/progress/delete/", {
-                    data: {
-                        surah_id: surahId,
-                        verse_id: id,
-                    },
-                });
-                console.log(response.data);
-                setBookmark(false);
+            let action;
+
+            if(option === "bookmark"){
+                action = bookmarked
             } else {
-                // Add bookmark
-                response = await api.post("/api/progress/", {
+                action = completed
+            }
+
+            if (action) {
+                response = await api.post(`/api/verse/${option}/remove/`, {
                     surah_id: surahId,
                     verse_id: id,
+                    option: option,
                 });
-                setBookmark(true);
-                console.log(response.data);
+                if(option === "bookmark"){
+                    setBookmark(false)
+                } else {
+                    setCompleted(false)
+                }
+            } else {
+                // Add bookmark
+                response = await api.post(`/api/verse/${option}/`, {
+                    surah_id: surahId,
+                    verse_id: id,
+                    option: option,
+                });
+                if(option === "bookmark"){
+                    setBookmark(true)
+                } else {
+                    setCompleted(true)
+                }
             }
 
         } catch (error) {
@@ -86,8 +88,11 @@ function VerseIcons({ surahId, id }) {
             <Grid item xs={8}></Grid>
             <Grid item xs={3}>
                 <Stack direction="row" spacing={1}>
-                    <IconButton aria-label="toggle-bookmark" size="large" onClick={handleToggleBookmark}>
-                        {bookmarked ? <BookmarkAddedIcon fontSize="inherit" color="primary"/> : <BookmarkAddIcon fontSize="inherit" color="primary"/>}
+                    <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('bookmark')}>
+                        {bookmarked ? <BookmarkAddedIcon fontSize="inherit" color="primary"/> : <BookmarkAddIcon fontSize="inherit" disabled/>}
+                    </IconButton>
+                    <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('completed')}>
+                        {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
                     </IconButton>
                 </Stack>
             </Grid>
