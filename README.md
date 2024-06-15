@@ -1,6 +1,7 @@
 First things first, why?
   - I'm bored af and got nothing to do. I am not a religious person, but my father is.
-  - This was built in 3-5 days lol. It's very barebones but I might add features that comes up in my head. React is a pain to work with.
+  - This was built in 3-5 days lol. It's very barebones, but the backend has all the CRUD operations of a basic database.
+  - I might add features that come up in my head. React is a pain to work with.
   - I might rewrite this in Svelte in the future(no guarantees).
 
 To run locally:
