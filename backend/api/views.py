@@ -79,17 +79,13 @@ class UpdateVerseBookmarkOrCompleted(generics.RetrieveUpdateAPIView):
         if option == 'bookmark':
             if verse.bookmarked:
                 verse.bookmarked = False
-                print(verse, 'here')
             else:
                 verse.bookmarked = True
-                print(verse, 'here')
         elif option == 'completed':
             if verse.completed:
                 verse.completed = False
-                print(verse, 'here')
             else:
                 verse.completed = True
-                print(verse, 'here')
 
         verse.save()
 

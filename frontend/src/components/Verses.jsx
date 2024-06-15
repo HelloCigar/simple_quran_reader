@@ -11,7 +11,6 @@ function Verses({surahId}){
         try {
             const response = await api.get(`/api/surahs/${surahId}/`,);
             setSurahDetail(response.data);
-            console.log(response.data);
         } catch (error) {
         console.error('There was an error getting the verses: ', error);
         }

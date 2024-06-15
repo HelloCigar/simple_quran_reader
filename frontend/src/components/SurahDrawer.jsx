@@ -1,27 +1,30 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Box, List, ListItemButton, ListItemText, Grid, Typography, Drawer } from '@mui/material';
 import SurahsList from './SurahsList';
 import api from '../api';
 
-function SurahDrawer({drawerOpen, toggleDrawer, handleClick}) {
+function SurahDrawer({ drawerOpen, toggleDrawer, handleClick }) {
     const [surahList, setSurahList] = useState([]);
+    const renderAfterCalled = useRef(false);
 
-    const getSurahs = async () => {
+    const getSurahs = useCallback(async () => {
       try {
-          const response = await api.get("/api/surahs/",);
+          const response = await api.get("/api/surahs/");
           setSurahList(response.data);
-          console.log(response.data);
         } catch (error) {
           console.error('There was an error getting the surahs: ', error);
           setSurahList([]);
         }
-    }
-  
-      useEffect(() => {
-          getSurahs();
-      }, [])
+    }, []);
 
-    return(
+    useEffect(() => {
+      if (!renderAfterCalled.current) {
+        getSurahs();
+      }
+      renderAfterCalled.current = true;
+    }, [getSurahs]);
+
+    return (
         <Drawer
             variant="persistent"
             anchor="left"
@@ -30,8 +33,8 @@ function SurahDrawer({drawerOpen, toggleDrawer, handleClick}) {
             elevation={16}
         > 
             <SurahsList surahList={surahList} toggleDrawer={toggleDrawer} handleClick={handleClick}></SurahsList>
-      </Drawer>
+        </Drawer>
     )
 }
 
-export default SurahDrawer
+export default SurahDrawer;

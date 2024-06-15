@@ -1,66 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { IconButton, Grid, Box, Typography } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import { IconButton, Grid, Box, Typography, Stack, Tooltip } from "@mui/material";
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import DoneAllIcon from '@mui/icons-material/DoneAll'; 
-import { Stack } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import api from "../api";
 
-function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
-    const [bookmarked, setBookmark] = useState(false);
-    const [completed, setCompleted] = useState(false);
-
+function VerseIcons({ isCompleted, isBookmarked, surahId, id }) {
+    const [status, setStatus] = useState({ bookmarked: false, completed: false });
 
     useEffect(() => {
-        if (isBookmarked === true) {
-            setBookmark(true)
-        }
-        if (isCompleted === true) {
-            setCompleted(true)
-        }
-    }, [])
-    
-    const handleToggle = async (option) => {
+        setStatus({
+            bookmarked: isBookmarked,
+            completed: isCompleted,
+        });
+    }, [isBookmarked, isCompleted]);
+
+    const handleToggle = useCallback(async (option) => {
         try {
-            let response;
-            let action;
+            const currentStatus = status[option];
+            const endpoint = currentStatus 
+                ? `/api/verse/${option}/remove/` 
+                : `/api/verse/${option}/`;
 
-            if(option === "bookmark"){
-                action = bookmarked
-            } else {
-                action = completed
-            }
+            await api.post(endpoint, {
+                surah_id: surahId,
+                verse_id: id,
+                option: option,
+            });
 
-            if (action) {
-                response = await api.post(`/api/verse/${option}/remove/`, {
-                    surah_id: surahId,
-                    verse_id: id,
-                    option: option,
-                });
-                if(option === "bookmark"){
-                    setBookmark(false)
-                } else {
-                    setCompleted(false)
-                }
-            } else {
-                // Add bookmark
-                response = await api.post(`/api/verse/${option}/`, {
-                    surah_id: surahId,
-                    verse_id: id,
-                    option: option,
-                });
-                if(option === "bookmark"){
-                    setBookmark(true)
-                } else {
-                    setCompleted(true)
-                }
-            }
-
+            setStatus((prevStatus) => ({
+                ...prevStatus,
+                [option]: !currentStatus,
+            }));
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
-    };
+    }, [status, surahId, id]);
 
     return (
         <Grid container justifyContent="center" alignItems="center">
@@ -88,12 +64,32 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
             <Grid item xs={8}></Grid>
             <Grid item xs={3}>
                 <Stack direction="row" spacing={1}>
-                    <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('bookmark')}>
-                        {bookmarked ? <BookmarkAddedIcon fontSize="inherit" color="primary"/> : <BookmarkAddIcon fontSize="inherit" disabled/>}
-                    </IconButton>
-                    <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('completed')}>
-                        {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
-                    </IconButton>
+                    <Tooltip title="Bookmark this verse">
+                        <IconButton
+                            aria-label="toggle-bookmark"
+                            size="large"
+                            onClick={() => handleToggle('bookmarked')}
+                        >
+                            {status.bookmarked ? (
+                                <BookmarkAddedIcon fontSize="inherit" color="primary" />
+                            ) : (
+                                <BookmarkAddIcon fontSize="inherit" />
+                            )}
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Mark completed">
+                        <IconButton
+                            aria-label="toggle-completed"
+                            size="large"
+                            onClick={() => handleToggle('completed')}
+                        >
+                            {status.completed ? (
+                                <DoneAllIcon fontSize="inherit" color="primary" />
+                            ) : (
+                                <DoneAllIcon fontSize="inherit" />
+                            )}
+                        </IconButton>
+                    </Tooltip>
                 </Stack>
             </Grid>
         </Grid>
