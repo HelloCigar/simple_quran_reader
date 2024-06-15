@@ -12,6 +12,7 @@ To run locally:
      - ```djangorestframework-simplejwt```
      - ```django-cors-headers```
      - Run to import quran to database: ```python manage.py import_quran "./api/quran_data/quran_en.json"```
+     - (Optional but recommended): Create a superuser(admin) account to access Django admin page: ```python manage.py createsuperuser```. Fill in the necessary details.
      - Then start the Django server using ```python manage.py runserver```
   3. Open another terminal, ```cd frontend```, then run:
      - ```npm install```
