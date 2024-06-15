@@ -5,9 +5,8 @@ import api from '../api';
 
 function SurahDrawer({ drawerOpen, toggleDrawer, handleClick }) {
     const [surahList, setSurahList] = useState([]);
-    const renderAfterCalled = useRef(false);
 
-    const getSurahs = useCallback(async () => {
+    const getSurahs = async () => {
       try {
           const response = await api.get("/api/surahs/");
           setSurahList(response.data);
@@ -15,18 +14,18 @@ function SurahDrawer({ drawerOpen, toggleDrawer, handleClick }) {
           console.error('There was an error getting the surahs: ', error);
           setSurahList([]);
         }
-    }, []);
+    };
 
-    useEffect(() => {
-      if (!renderAfterCalled.current) {
-        getSurahs();
-      }
-      renderAfterCalled.current = true;
-    }, [getSurahs]);
+      useEffect(() => {
+          getSurahs();
+      }, []);
 
     return (
         <Drawer
-            variant="persistent"
+            ModalProps={{
+              keepMounted: true,
+            }}
+            variant="temporary"
             anchor="left"
             open={drawerOpen}
             onClose={toggleDrawer(false)}

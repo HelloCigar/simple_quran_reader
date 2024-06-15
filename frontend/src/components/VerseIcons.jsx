@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IconButton, Grid, Box, Typography } from "@mui/material";
+import { IconButton, Grid, Box, Typography, Tooltip, Chip } from "@mui/material";
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import DoneAllIcon from '@mui/icons-material/DoneAll'; 
@@ -64,8 +64,12 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
 
     return (
         <Grid container justifyContent="center" alignItems="center">
-            <Grid item xs={1}>
-                <Box border={1} borderColor="grey.400" p={1} borderRadius={2}>
+            <Grid item xs={2}>
+                <Tooltip title="(Chapter) : (Verse)">
+                <Chip label={`Surah ${surahId} : Aya ${id}`} href={`#${id}`} color="secondary" />
+                </Tooltip>
+
+                {/* <Box border={1} borderColor="grey.400" p={1} borderRadius={2}>
                     <Grid container>
                         <Grid item xs={4}>
                             <Typography align="center" color={grey[500]}>
@@ -83,17 +87,21 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
                             </Typography>
                         </Grid>
                     </Grid>
-                </Box>
+                </Box> */}
             </Grid>
-            <Grid item xs={8}></Grid>
+            <Grid item xs={7}></Grid>
             <Grid item xs={3}>
                 <Stack direction="row" spacing={1}>
-                    <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('bookmarked')}>
-                        {bookmarked ? <BookmarkAddedIcon fontSize="inherit" color="primary"/> : <BookmarkAddIcon fontSize="inherit" disabled/>}
-                    </IconButton>
-                    <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('completed')}>
-                        {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
-                    </IconButton>
+                    <Tooltip title="Bookmark this verse">
+                        <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('bookmarked')}>
+                            {bookmarked ? <BookmarkAddedIcon fontSize="inherit" color="primary"/> : <BookmarkAddIcon fontSize="inherit" disabled/>}
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Mark as Completed">
+                        <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('completed')}>
+                            {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
+                        </IconButton>
+                    </Tooltip>
                 </Stack>
             </Grid>
         </Grid>
