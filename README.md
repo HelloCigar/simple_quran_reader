@@ -1,5 +1,6 @@
 First things first, why?
   - I'm bored af and got nothing to do. I am not a religious person, but my father is.
+  - This was built in 3-5 days lol. React is a pain to work with.
 
 To run locally:
   1. Clone the repo
