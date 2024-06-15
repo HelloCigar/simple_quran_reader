@@ -43,11 +43,11 @@ class LogoutView(APIView):
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class SurahListCreateView(generics.ListCreateAPIView):
+class SurahListCreateView(generics.ListAPIView):
     queryset = Surah.objects.all()
     serializer_class = SurahSerializer
 
-class SurahDetailView(generics.RetrieveUpdateDestroyAPIView):
+class SurahDetailView(generics.RetrieveAPIView):
     queryset = Surah.objects.all()
     serializer_class = SurahDetailSerializer
 
