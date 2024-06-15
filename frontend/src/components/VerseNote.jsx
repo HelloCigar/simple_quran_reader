@@ -6,8 +6,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { IconButton } from '@mui/material';
+import DescriptionIcon from '@mui/icons-material/Description';
+import {Tooltip} from '@mui/material';
 
-export default function FormDialog() {
+function FormDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,10 +23,17 @@ export default function FormDialog() {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+        <Tooltip title="Notes">
+            <IconButton aria-label="toggle-bookmark" size="large" onClick={handleClickOpen}>
+                {open ? <DescriptionIcon fontSize="inherit" color="primary"/> : <DescriptionIcon disabled fontSize="inherit"/>}
+            </IconButton>
+        </Tooltip>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open form dialog
-      </Button>
+      </Button> */}
       <Dialog
+        maxWidth="sm"
+        fullWidth={true}
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -32,35 +42,35 @@ export default function FormDialog() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
+            const note = formJson.note;
             console.log(email);
             handleClose();
           },
         }}
       >
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Notes</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText>
           <TextField
+            multiline
+            rows={4}
             autoFocus
             required
             margin="dense"
-            id="name"
-            name="email"
-            label="Email Address"
-            type="email"
+            id="note"
+            name="note"
+            label="Add a note  here"
+            type="text"
             fullWidth
-            variant="standard"
+            variant="filled"
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Subscribe</Button>
+          <Button type="submit">Save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   );
 }
+
+export default FormDialog

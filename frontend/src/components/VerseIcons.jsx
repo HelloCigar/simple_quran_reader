@@ -6,6 +6,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { Stack } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import api from "../api";
+import FormDialog from "./VerseNote";
 
 function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
     const [bookmarked, setBookmark] = useState(false);
@@ -66,7 +67,7 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
         <Grid container justifyContent="center" alignItems="center">
             <Grid item xs={2}>
                 <Tooltip title="(Chapter) : (Verse)">
-                    <Chip label={`Surah ${surahId} : Aya ${id}`} href={`#${id}`} color="secondary" clickable component='a' />
+                    <Chip label={`Surah ${surahId} : Aya ${id}`} href={`/home#${id}`} color="secondary" clickable component='a' />
                 </Tooltip>
             </Grid>
             <Grid item xs={8}></Grid>
@@ -82,11 +83,8 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
                             {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Mark as Completed">
-                        <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('completed')}>
-                            {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
-                        </IconButton>
-                    </Tooltip>
+                        <FormDialog>
+                        </FormDialog>
                 </Stack>
             </Grid>
         </Grid>
