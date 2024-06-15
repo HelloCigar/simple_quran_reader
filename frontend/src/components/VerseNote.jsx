@@ -55,7 +55,7 @@ function FormDialog() {
             rows={4}
             autoFocus
             required
-            margin="dense"
+            margin="none"
             id="note"
             name="note"
             label="Add a note  here"

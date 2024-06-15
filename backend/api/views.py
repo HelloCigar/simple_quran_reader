@@ -76,7 +76,7 @@ class UpdateVerseBookmarkOrCompleted(generics.RetrieveUpdateAPIView):
 
         verse = Verse.objects.get(surah=surah, verse_id=verse_id)
 
-        if option == 'bookmark':
+        if option == 'bookmarked':
             if verse.bookmarked:
                 verse.bookmarked = False
             else:
