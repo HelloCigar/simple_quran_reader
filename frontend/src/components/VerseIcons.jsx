@@ -66,15 +66,20 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
         <Grid container justifyContent="center" alignItems="center">
             <Grid item xs={2}>
                 <Tooltip title="(Chapter) : (Verse)">
-                    <Chip label={`Surah ${surahId} : Aya ${id}`} href={`#${id}`} color="secondary" />
+                    <Chip label={`Surah ${surahId} : Aya ${id}`} href={`#${id}`} color="secondary" clickable component='a' />
                 </Tooltip>
             </Grid>
-            <Grid item xs={7}></Grid>
-            <Grid item xs={3}>
+            <Grid item xs={8}></Grid>
+            <Grid item xs={2}>
                 <Stack direction="row" spacing={1}>
                     <Tooltip title="Bookmark this verse">
                         <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('bookmarked')}>
                             {bookmarked ? <BookmarkAddedIcon fontSize="inherit" color="primary"/> : <BookmarkAddIcon fontSize="inherit" disabled/>}
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Mark as Completed">
+                        <IconButton aria-label="toggle-bookmark" size="large" onClick={()=>handleToggle('completed')}>
+                            {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Mark as Completed">

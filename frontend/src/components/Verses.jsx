@@ -109,7 +109,7 @@ function Verses({ surahId }) {
             </Grid>
           )}
           {verses.map((verse) => (
-            <React.Fragment key={verse.id}>
+            <React.Fragment key={verse.id} href={`#${verse.verse_id}`}>
               <VerseText
                 isCompleted={verse.completed}
                 isBookmarked={verse.bookmarked}
@@ -117,7 +117,6 @@ function Verses({ surahId }) {
                 id={verse.verse_id}
                 text={verse.text}
                 translation={verse.translation}
-                href={`#${verse.verse_id}`}
               />
             </React.Fragment>
           ))}
