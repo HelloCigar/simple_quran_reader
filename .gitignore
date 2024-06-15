@@ -10,3 +10,4 @@ backend/api/migrations/__init__.py
 /backend/api/migrations
 /backend/api/migrations
 backend/api/migrations/0001_initial.py
+/backend/api/migrations
