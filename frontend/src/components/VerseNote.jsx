@@ -28,9 +28,6 @@ function FormDialog() {
                 {open ? <DescriptionIcon fontSize="inherit" color="primary"/> : <DescriptionIcon disabled fontSize="inherit"/>}
             </IconButton>
         </Tooltip>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button> */}
       <Dialog
         maxWidth="sm"
         fullWidth={true}
@@ -43,7 +40,7 @@ function FormDialog() {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const note = formJson.note;
-            console.log(email);
+            console.log(note);
             handleClose();
           },
         }}
