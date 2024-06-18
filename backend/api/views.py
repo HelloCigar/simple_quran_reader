@@ -105,7 +105,6 @@ class VerseNoteCreate(generics.CreateAPIView):
         verse_id = request.data.get('verse_id')
         content = request.data.get('content')
 
-
         try:
             surah = Surah.objects.get(id=surah_id)
             verse = Verse.objects.get(surah=surah, verse_id=verse_id)

@@ -10,8 +10,9 @@ import { IconButton } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import {Tooltip} from '@mui/material';
 import api from '../api';
+import { useCallback  } from 'react';
 
-function FormDialog(surah_id, verse_id) {
+function FormDialog({surah_id, verse_id}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -22,13 +23,19 @@ function FormDialog(surah_id, verse_id) {
     setOpen(false);
   };
 
-  const createOrSaveNote = async (content) => {
-    const response = await api.post('/api/verse/notes/add_note/', {
-        surah_id: surah_id,
-        verse_id: verse_id,
-        content: content,
-    })
-  }
+  const createOrSaveNote = useCallback(async (content) => {
+    try {
+      const response = await api.post('/api/verse/notes/add_note/', {
+          surah_id: surah_id,
+          verse_id: verse_id,
+          content: content,
+      })
+
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  })
 
 
   return (
@@ -50,7 +57,7 @@ function FormDialog(surah_id, verse_id) {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const note = formJson.note;
-            createOrSaveNote(note)
+            createOrSaveNote(note);
             handleClose();
           },
         }}

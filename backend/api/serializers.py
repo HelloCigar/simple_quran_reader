@@ -54,7 +54,7 @@ class VerseNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = VerseNote
         fields = ['id', 'user', 'surah', 'verse', 'content']
-        read_only_fields = ['user', 'verse']
+        read_only_fields = ['user']
 
     def validate_verse(self, value):
         # Custom validation: ensure verse is unique per user
