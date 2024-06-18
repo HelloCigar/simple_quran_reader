@@ -15,7 +15,7 @@ class Surah(models.Model):
 
 class Verse(models.Model):
     surah = models.ForeignKey(Surah, related_name='verses', on_delete=models.CASCADE)
-    verse_id = models.IntegerField()
+    verse_id = models.PositiveIntegerField()
     text = models.TextField()
     translation = models.TextField()
     bookmarked = models.BooleanField(default=False)
@@ -24,8 +24,17 @@ class Verse(models.Model):
     def __str__(self):
         return f'{self.translation} - {self.verse_id} - {self.bookmarked} - {self.completed}'
 
+
 class VerseNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     surah = models.ForeignKey(Surah, on_delete=models.CASCADE)
     verse = models.OneToOneField(Verse, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(default='')
+
+    def __str__(self):
+        return f'{self.content}'
+
+
+
+    
+        

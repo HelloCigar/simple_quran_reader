@@ -70,7 +70,7 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
                     <Chip label={`Surah ${surahId} : Aya ${id}`} href={`/home#${id}`} color="secondary" clickable component='a' />
                 </Tooltip>
             </Grid>
-            <Grid item xs={8}></Grid>
+            <Grid item xs={8} md={8}></Grid>
             <Grid item xs={2}>
                 <Stack direction="row" spacing={1}>
                     <Tooltip title="Bookmark this verse">
@@ -83,7 +83,7 @@ function VerseIcons({ isCompleted , isBookmarked, surahId, id }) {
                             {completed ? <DoneAllIcon fontSize="inherit" color="primary"/> : <DoneAllIcon disabled fontSize="inherit"/>}
                         </IconButton>
                     </Tooltip>
-                        <FormDialog>
+                        <FormDialog surah_id={surahId} verse_id={id}>
                         </FormDialog>
                 </Stack>
             </Grid>

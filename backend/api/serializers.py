@@ -49,7 +49,16 @@ class BookmarkAndCompletedSerializer(serializers.ModelSerializer):
         model = Verse
         fields = ['id', 'bookmarked', "completed"]
 
+
 class VerseNoteSerializer(serializers.ModelSerializer):
     class Meta:
-        model: VerseNote
-        fields = ['id', 'user', 'surah', 'verse' 'content']
+        model = VerseNote
+        fields = ['id', 'user', 'surah', 'verse', 'content']
+        read_only_fields = ['user', 'verse']
+
+    def validate_verse(self, value):
+        # Custom validation: ensure verse is unique per user
+        if VerseNote.objects.filter(verse=value, user=self.context['request'].user).exists():
+            raise serializers.ValidationError("You have already added a note for this verse.")
+        return value
+

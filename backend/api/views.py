@@ -3,13 +3,14 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, permissions, status
+from rest_framework import generics, viewsets ,permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Surah, Verse, VerseNote
 from .serializers import SurahSerializer, RegisterSerializer, LoginSerializer, SurahDetailSerializer, BookmarkAndCompletedSerializer, VerseNoteSerializer, VerseSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import serializers
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -54,7 +55,7 @@ class SurahDetailView(generics.RetrieveAPIView):
 class UpdateVerseBookmarkOrCompleted(generics.RetrieveUpdateAPIView):
     serializer_class = VerseSerializer
     permission_classes = [IsAuthenticated]
-
+    
     def post(self, request, *args, **kwargs):
         user = request.user
         surah_id = request.data.get('surah_id')
@@ -92,18 +93,48 @@ class UpdateVerseBookmarkOrCompleted(generics.RetrieveUpdateAPIView):
         serializer = BookmarkAndCompletedSerializer(verse)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-# class VerseNoteCreate(generics.CreateAPIView):
-#     serializer_class = VerseNoteSerializer
-#     permission_classes = [IsAuthenticated]
+class VerseNoteCreate(generics.CreateAPIView):
+    serializer_class = VerseNoteSerializer
+    permission_classes = [IsAuthenticated]
 
-#     def get_queryset(self):
-#         user = self.request.user
-#         return VerseNote.objects.filter(user=user)
-    
-#     def post(self, request, *args, **kwargs):
-#         user = request.user
-#         surah_id = request.data.get('surah_id')
-#         verse_id = request.data.get('verse_id')
-    
+    def perform_create(self, serializer, verse):
+        serializer.save(user=self.request.user, verse=verse)
 
-        
+    def create(self, request, *args, **kwargs):
+        surah_id = request.data.get('surah_id')
+        verse_id = request.data.get('verse_id')
+        content = request.data.get('content')
+
+
+        try:
+            surah = Surah.objects.get(id=surah_id)
+            verse = Verse.objects.get(surah=surah, verse_id=verse_id)
+        except (Surah.DoesNotExist, Verse.DoesNotExist):
+            return Response({'error': 'Invalid surah or verse ID'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(data={'surah': surah.id, 'verse': verse.id, 'content': content})
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer, verse)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def handle_exception(self, exc):
+        response = super().handle_exception(exc)
+        if isinstance(exc, serializers.ValidationError):
+            custom_response_data = {'error': str(exc)}
+            response.data = custom_response_data
+        return response
+
+
+
+
+
+
+
+
+         
+
+
+
+
+    

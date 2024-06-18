@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, CssBaseline, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -16,18 +16,18 @@ function Home() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  })
 
-  const toggleDrawer = (open) => () => {
+  const toggleDrawer = useCallback((open) => () => {
     setDrawerOpen(open);
-  };
+  });
 
-  const handleListItemClick = (surahId) => () => {
+  const handleListItemClick = useCallback((surahId) => () => {
     setSurahID(surahId);
     setDrawerOpen(false);
-  };
+  })
 
   const handleLogout = () => {
     navigate("/logout")

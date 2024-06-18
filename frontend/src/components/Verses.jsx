@@ -117,7 +117,7 @@ function Verses({ surahId }) {
                 id={verse.verse_id}
                 text={verse.text}
                 translation={verse.translation}
-                href={`home#${verse.verse_id}`}
+                href={`#${verse.verse_id}`}
               />
             </React.Fragment>
           ))}

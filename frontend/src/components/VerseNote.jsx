@@ -9,8 +9,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { IconButton } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import {Tooltip} from '@mui/material';
+import api from '../api';
 
-function FormDialog() {
+function FormDialog(surah_id, verse_id) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -21,11 +22,20 @@ function FormDialog() {
     setOpen(false);
   };
 
+  const createOrSaveNote = async (content) => {
+    const response = await api.post('/api/verse/notes/add_note/', {
+        surah_id: surah_id,
+        verse_id: verse_id,
+        content: content,
+    })
+  }
+
+
   return (
     <React.Fragment>
         <Tooltip title="Notes">
             <IconButton aria-label="toggle-bookmark" size="large" onClick={handleClickOpen}>
-                {open ? <DescriptionIcon fontSize="inherit" color="primary"/> : <DescriptionIcon disabled fontSize="inherit"/>}
+                {open ? <DescriptionIcon fontSize="inherit" color="primary"/> : <DescriptionIcon disabled fontSize="inherit" color='grey'/>}
             </IconButton>
         </Tooltip>
       <Dialog
@@ -40,7 +50,7 @@ function FormDialog() {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const note = formJson.note;
-            console.log(note);
+            createOrSaveNote(note)
             handleClose();
           },
         }}
@@ -55,7 +65,7 @@ function FormDialog() {
             margin="none"
             id="note"
             name="note"
-            label="Add a note  here"
+            label="Add a note here"
             type="text"
             fullWidth
             variant="filled"
